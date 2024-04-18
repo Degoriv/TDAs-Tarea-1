@@ -2,10 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct paciente
-{
-	int prioridad;
-	char *nombre;
+typedef struct paciente {
+  int prioridad;
+  char *nombre;
 } paciente;
 
 // Función para limpiar la pantalla
@@ -34,7 +33,7 @@ void mostrarMenuPrincipal() {
 
 void registrar_paciente(List *pacientes) {
   printf("Registrar nuevo paciente\n");
-  // Aquí implementarías la lógica para registrar un nuevo paciente
+  // Aquí implementarías la lógica para registrar un nuevo pacientebfjdsbj
 }
 
 void mostrar_lista_pacientes(List *pacientes) {
@@ -45,7 +44,8 @@ void mostrar_lista_pacientes(List *pacientes) {
 
 int main() {
   char opcion;
-  List *pacientes = list_create(); // puedes usar una lista para gestionar los pacientes
+  List *pacientes =
+      list_create(); // puedes usar una lista para gestionar los pacientes
 
   do {
     mostrarMenuPrincipal();

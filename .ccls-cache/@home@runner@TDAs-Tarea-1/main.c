@@ -2,10 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct paciente {
-  int prioridad;
+typedef struct tipoPaciente {
+	int prioridad;
   char *nombre;
-} paciente;
+	int edad;
+	char *sintoma;
+ 	int hora; // Por ahora sera solamente sera un contador
+} tipoPaciente;
 
 // Función para limpiar la pantalla
 void limpiarPantalla() { system("clear"); }
@@ -31,12 +34,22 @@ void mostrarMenuPrincipal() {
   puts("6) Salir");
 }
 
-void registrar_paciente(List *pacientes) {
-  printf("Registrar nuevo paciente\n");
-  // Aquí implementarías la lógica para registrar un nuevo pacientebfjdsbj
+void registrar_paciente(List *listaPacientes) {
+	tipoPaciente *paciente = malloc(sizeof(tipoPaciente));
+	printf("Registrar nuevo paciente\n");
+	
+	printf("Ingresa el nombre del paciente:\n");
+	scanf("%s", paciente->nombre);
+
+	printf("Ingresa la edad del paciente:\n");
+	scanf("s", &paciente->edad);
+	
+
+	
+	// Aquí implementarías la lógica para registrar un nuevo paciente
 }
 
-void mostrar_lista_pacientes(List *pacientes) {
+void mostrar_lista_pacientes(List *listaPacientes) {
   // Mostrar pacientes en la cola de espera
   printf("Pacientes en espera: \n");
   // Aquí implementarías la lógica para recorrer y mostrar los pacientes
@@ -44,7 +57,7 @@ void mostrar_lista_pacientes(List *pacientes) {
 
 int main() {
   char opcion;
-  List *pacientes =
+  List *listaPacientes =
       list_create(); // puedes usar una lista para gestionar los pacientes
 
   do {
@@ -55,13 +68,13 @@ int main() {
 
     switch (opcion) {
     case '1':
-      registrar_paciente(pacientes);
+      registrar_paciente(listaPacientes);
       break;
     case '2':
       // Lógica para asignar prioridad
       break;
     case '3':
-      mostrar_lista_pacientes(pacientes);
+      mostrar_lista_pacientes(listaPacientes);
       break;
     case '4':
       // Lógica para atender al siguiente paciente
@@ -80,7 +93,7 @@ int main() {
   } while (opcion != '6');
 
   // Liberar recursos, si es necesario
-  list_clean(pacientes);
+  list_clean(listaPacientes);
 
   return 0;
 }

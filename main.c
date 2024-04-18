@@ -6,8 +6,6 @@ typedef struct paciente
 {
 	int prioridad;
 	char *nombre;
-	
-
 } paciente;
 
 // Función para limpiar la pantalla
@@ -37,7 +35,6 @@ void mostrarMenuPrincipal() {
 void registrar_paciente(List *pacientes) {
   printf("Registrar nuevo paciente\n");
   // Aquí implementarías la lógica para registrar un nuevo paciente
-	
 }
 
 void mostrar_lista_pacientes(List *pacientes) {

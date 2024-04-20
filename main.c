@@ -61,7 +61,24 @@ void registrar_paciente(List *listaPacientes)
 	
 	printf("Ingresa el nombre del paciente: \n");
 	getchar();
-	scanf(" %[^\n]", paciente->nombre);
+	char nombreIngresado[MAX];
+	scanf(" %[^\n]", nombreIngresado);
+	strMay(nombreIngresado);
+
+	bool encontPaciente = false;
+	tipoPaciente *pacienteActual = list_first(listaPacientes);
+	while (pacienteActual != NULL && !encontPaciente)
+	{	
+		if (strcmp(pacienteActual->nombre, nombreIngresado) == 0){
+			puts("El paciente ya se encuentra registrado");
+			encontPaciente = true;
+			return; }
+		else pacienteActual = list_next(listaPacientes);
+	}
+
+	if (pacienteActual == NULL) { // El paciente no estaba registrado
+		strcpy(paciente->nombre, nombreIngresado);
+	}
 	
 	printf("Ingresa la edad del paciente: \n");
 	scanf("%i", &paciente->edad);
@@ -85,7 +102,7 @@ void mostrar_lista_pacientes(List *listaPacientes)
   printf("Pacientes en espera: \n");
 	tipoPaciente *pacienteActual = list_first(listaPacientes);
 	puts("=============================================================================");
-	printf("|                          Pacientes en espera: %d                           |\n"
+	printf("|                          Pacientes en espera: %d                          |\n"
 	,totalPacientes);
 	puts("=============================================================================");
 	printf("| %-20s | %-10s | %-25s | %-8s |\n", "Nombres", "Edad", "Sintoma", "Prioridad");
@@ -111,10 +128,10 @@ void mostrar_lista_pacientes(List *listaPacientes)
 		}
 }
 
-void asignPriori(List *listaPacientes)
+void asignar_prioridad(List *listaPacientes)
 {
 	if (totalPacientes == 0){
-	printf("No hay pacientes registrados /n");
+	puts("No hay pacientes registrados");
 	return; }
 	
 	printf("Ingrese el nombre del paciente del cual quiere cambiar prioridad:\n");
@@ -125,12 +142,14 @@ void asignPriori(List *listaPacientes)
 
 	tipoPaciente *pacienteActual = list_first(listaPacientes);
 
-	while (pacienteActual != NULL)
+	while (pacienteActual != NULL) //Bucle para buscar al paciente en la lista
 		{	
-			if (pacienteActual->nombre == nombrePaciente){
-				printf("No se ha encontrado al paciente");
+			if (strcmp(pacienteActual->nombre, nombrePaciente) == 0){
 				break; }
 			else pacienteActual = list_next(listaPacientes);
+			if (pacienteActual == NULL) {
+				puts("No se ha encontrado al paciente");
+				return; }
 		}
 	
 	printf("El paciente tiene prioridad ");
@@ -144,19 +163,21 @@ void asignPriori(List *listaPacientes)
 	while (!validPriori) //Bucle solamente para definir y validar el dato nuevaPrioridad
 	{
 		printf("\nIngrese el numero de la nueva prioridad: \n");
-		printf("1 - Baja\n");
-		printf("2 - Media\n");
-		printf("3 - Alta\n");
+		printf("1) Baja\n");
+		printf("2) Media\n");
+		printf("3) Alta\n");
 		scanf("%i", &nuevaPrioridad);
 		if (nuevaPrioridad == 1 || nuevaPrioridad == 2 || nuevaPrioridad == 3) validPriori = true;
-		else printf("Prioridad no valida, ingrese nuevamente");
+		else puts("Prioridad no valida, ingrese nuevamente");
 	}
 
 	bool cambGuard = false;
-	if (pacienteActual->prioridad == nuevaPrioridad) printf("No se ha hecho ningun cambio");
-	else {pacienteActual->prioridad = nuevaPrioridad;
-				printf("Se han guardado los cambios");}
-	
+	if (pacienteActual->prioridad == nuevaPrioridad) {
+		puts("No se ha hecho ningun cambio"); }
+		
+	else {
+		pacienteActual->prioridad = nuevaPrioridad;
+		puts("Se han guardado los cambios"); }
 }
 
 int main() {
@@ -176,7 +197,7 @@ int main() {
       break;
     case '2':
       // Lógica para asignar prioridad
-			asignPriori(listaPacientes);
+			asignar_prioridad(listaPacientes);
       break;
     case '3':
       mostrar_lista_pacientes(listaPacientes);

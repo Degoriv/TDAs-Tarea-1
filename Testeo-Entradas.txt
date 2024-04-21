@@ -4,7 +4,7 @@ Javiera Munoz
 Demencia
 -
 1
-Coni
+Cony
 20
 tiene tuto
 -
@@ -19,9 +19,9 @@ Son goku
 Enfermedad al corazon
 -
 1
-Jorge Gonzalez
-45
-Patas Negras
+oscar
+20
+coma etilico
 -
 1
 nicolas
@@ -41,7 +41,7 @@ son goku
 3
 -
 2
-jorge gonzalez
+oscar
 2
 -
 2

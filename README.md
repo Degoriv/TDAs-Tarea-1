@@ -81,7 +81,7 @@ Funcion `void mostrar_lista_prioridad(List *listaPacientes)` mostrando la priori
 | NICOLAS              | 20         | PERDIO UN DEDO            | Alto      |
 | BOB ESPONJA          | 34         | ASTILLA EN EL DEDO        | Alto      |
 ````
-En el archivo `Input_Sugerido` hay una sugerencia de entrada, que deja la lista con pacientes registrados y prioridades cambiadas:
+En el archivo `Input_Sugerido.txt` hay una sugerencia de entrada, que deja la lista con pacientes registrados y prioridades cambiadas:
 
 
 

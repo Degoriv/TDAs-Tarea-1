@@ -185,11 +185,6 @@ void mostrar_lista_prioridad(List *listaPacientes)
 	int prioriIngresada;
 	bool validPriori = false;
 
-	tipoPaciente *pacienteActual = list_first(listaPacientes);
-	if (pacienteActual == NULL){
-		puts("No hay pacientes registrados");
-		return; }
-
 	while (!validPriori) //Bucle solamente para definir y validar el dato nuevaPrioridad
 	{
 		printf("\nIngrese el numero de la prioridad que desea mostrar: \n");
@@ -200,13 +195,15 @@ void mostrar_lista_prioridad(List *listaPacientes)
 		if (prioriIngresada == 1 || prioriIngresada == 2 || prioriIngresada == 3) validPriori = true;
 		else puts("Prioridad no valida, ingrese nuevamente");
 	}
-	
+
 	int cantPrioridad = contador_prioridad(listaPacientes, prioriIngresada);
+
+	tipoPaciente *pacienteActual = list_first(listaPacientes);
 	
-	if (cantPrioridad == 0) {
-		puts("No hay pacientes con esa prioridad");
-		return; }
-	
+	if (pacienteActual == NULL || cantPrioridad == 0){
+	puts("No hay pacientes registrados");
+	return; }
+
 	puts("=============================================================================");
 	printf("|                          Pacientes en espera: %d                           |\n"
 				 ,cantPrioridad);
@@ -217,22 +214,22 @@ void mostrar_lista_prioridad(List *listaPacientes)
 		{
 			char nombre[MAX];
 			strcpy(nombre, pacienteActual->nombre);
-			
+
 			int edad = pacienteActual->edad;
-			
+
 			char sintoma[MAX];
 			strcpy(sintoma, pacienteActual->sintoma);
-			
+
 			int prioridad = pacienteActual->prioridad;
-			
 			if (prioridad == prioriIngresada) {
 				printf("| %-20s | %-10d | %-25s |", nombre, edad, sintoma);
 				if (prioridad == 1) printf(" %-9s |\n", "Baja");
 				else if (prioridad == 2) printf(" %-9s |\n", "Media");
 				else if (prioridad == 3) printf(" %-9s |\n", "Alto"); }
+
 			pacienteActual = list_next(listaPacientes);
 		}
-	}
+}
 
 void asignar_prioridad(List *listaPacientes)
 {

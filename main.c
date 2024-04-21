@@ -14,7 +14,7 @@ typedef struct tipoPaciente {
   char nombre[MAX];
 	int edad;
 	char sintoma[MAX];
- 	int hora;
+	time_t hora;
 } tipoPaciente;
 
 int totalPacientes = 0;
@@ -49,6 +49,37 @@ void mostrarMenuPrincipal() {
   puts("4) Atender al siguiente paciente");
   puts("5) Mostrar pacientes por prioridad");
   puts("6) Salir");
+}
+
+void ordenar_por_prioridad(List *listaPacientes) 
+{
+	bool intercambio;
+	bool igualPrioridad;
+	do {
+		intercambio = false;
+		igualPrioridad = false;
+
+		tipoPaciente *pacienteActual = list_first(listaPacientes);
+		tipoPaciente *siguientePaciente = list_next(listaPacientes);
+		while (siguientePaciente != NULL) 
+		{
+			if (pacienteActual->prioridad < siguientePaciente->prioridad) {
+				tipoPaciente temp = *pacienteActual;
+				*pacienteActual = *siguientePaciente;
+				*siguientePaciente = temp;
+				intercambio = true;
+				}
+			else if (pacienteActual->prioridad == siguientePaciente->prioridad &&
+							 pacienteActual->hora > siguientePaciente->hora) {
+				tipoPaciente temp = *pacienteActual;
+				*pacienteActual = *siguientePaciente;
+				*siguientePaciente = temp;
+				intercambio = true;
+			}
+			pacienteActual = siguientePaciente;
+			siguientePaciente = list_next(listaPacientes);
+		}
+	} while (intercambio);
 }
 
 void registrar_paciente(List *listaPacientes) 
@@ -92,17 +123,21 @@ void registrar_paciente(List *listaPacientes)
 
 	paciente->prioridad = 1; //Se asigna en baja automaticamente
 
+	time(&paciente->hora);
+	
 	list_pushBack(listaPacientes, paciente);
 	totalPacientes += 1;
 	paciente->nFicha = totalPacientes;
+
+	ordenar_por_prioridad(listaPacientes);
 }
-		
+
 void mostrar_lista_pacientes(List *listaPacientes) 
 {
   printf("Pacientes en espera: \n");
 	tipoPaciente *pacienteActual = list_first(listaPacientes);
 	puts("=============================================================================");
-	printf("|                          Pacientes en espera: %d                          |\n"
+	printf("|                          Pacientes en espera: %d                           |\n"
 	,totalPacientes);
 	puts("=============================================================================");
 	printf("| %-20s | %-10s | %-25s | %-8s |\n", "Nombres", "Edad", "Sintoma", "Prioridad");
@@ -124,6 +159,64 @@ void mostrar_lista_pacientes(List *listaPacientes)
 			else if (prioridad == 2) printf(" %-9s |\n", "Media");
 			else if (prioridad == 3) printf(" %-9s |\n", "Alto");
 			
+			pacienteActual = list_next(listaPacientes);
+		}
+}
+
+int contador_prioridad(List *listaPacientes, int prioridad)
+{
+	int cont = 0;
+	tipoPaciente *pacienteActual = list_first(listaPacientes);
+	while(pacienteActual != NULL)
+		{
+			if (pacienteActual->prioridad == prioridad) cont += 1;
+			pacienteActual = list_next(listaPacientes);
+		}
+	return cont;
+}
+
+void mostrar_lista_prioridad(List *listaPacientes)
+{
+	int prioriIngresada;
+	bool validPriori = false;
+
+	while (!validPriori) //Bucle solamente para definir y validar el dato nuevaPrioridad
+	{
+		printf("\nIngrese el numero de la prioridad que desea mostrar: \n");
+		printf("1) Baja\n");
+		printf("2) Media\n");
+		printf("3) Alta\n");
+		scanf("%i", &prioriIngresada);
+		if (prioriIngresada == 1 || prioriIngresada == 2 || prioriIngresada == 3) validPriori = true;
+		else puts("Prioridad no valida, ingrese nuevamente");
+	}
+
+	int cantPrioridad = contador_prioridad(listaPacientes, prioriIngresada);
+	
+	tipoPaciente *pacienteActual = list_first(listaPacientes);
+	puts("=============================================================================");
+	printf("|                          Pacientes en espera: %d                           |\n"
+				 ,cantPrioridad);
+	puts("=============================================================================");
+	printf("| %-20s | %-10s | %-25s | %-8s |\n", "Nombres", "Edad", "Sintoma", "Prioridad");
+	puts("=============================================================================");
+	while(pacienteActual != NULL)
+		{
+			char nombre[MAX];
+			strcpy(nombre, pacienteActual->nombre);
+
+			int edad = pacienteActual->edad;
+
+			char sintoma[MAX];
+			strcpy(sintoma, pacienteActual->sintoma);
+
+			int prioridad = pacienteActual->prioridad;
+			if (prioridad == prioriIngresada) {
+				printf("| %-20s | %-10d | %-25s |", nombre, edad, sintoma);
+				if (prioridad == 1) printf(" %-9s |\n", "Baja");
+				else if (prioridad == 2) printf(" %-9s |\n", "Media");
+				else if (prioridad == 3) printf(" %-9s |\n", "Alto"); }
+
 			pacienteActual = list_next(listaPacientes);
 		}
 }
@@ -178,6 +271,8 @@ void asignar_prioridad(List *listaPacientes)
 	else {
 		pacienteActual->prioridad = nuevaPrioridad;
 		puts("Se han guardado los cambios"); }
+	
+	ordenar_por_prioridad(listaPacientes);
 }
 
 int main() {
@@ -207,6 +302,7 @@ int main() {
       break;
     case '5':
       // Lógica para mostrar pacientes por prioridad
+			mostrar_lista_prioridad(listaPacientes);
       break;
     case '6':
       puts("Saliendo del sistema de gestión hospitalaria...");

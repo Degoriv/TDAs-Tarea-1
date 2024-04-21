@@ -4,9 +4,9 @@ Javiera Munoz
 Demencia
 -
 1
-Constanza
+Coni
 20
-Hipocondriasis
+tiene tuto
 -
 1
 Pam beesly
@@ -23,13 +23,28 @@ Jorge Gonzalez
 45
 Patas Negras
 -
+1
+nicolas
+20
+no tiene dedo
+-
+2
+javiera munoz
+3
+-
+2
+pam beesly
+1
+-
 2
 son goku
 3
 -
 2
 jorge gonzalez
+2
+-
+2
+nicolas
 3
-
-
-
+-

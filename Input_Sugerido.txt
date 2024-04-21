@@ -21,12 +21,17 @@ Enfermedad al corazon
 1
 oscar
 20
-coma etilico
+Coma etilico
 -
 1
 nicolas
 20
-no tiene dedo
+Perdio un dedo
+-
+1
+bob espOnja
+34
+Astilla en el dedo
 -
 2
 javiera munoz
@@ -46,5 +51,9 @@ oscar
 -
 2
 nicolas
+3
+-
+2
+bob esponja
 3
 -
